@@ -1,0 +1,6 @@
+flake8
+mypy
+# --- Outils pour créer le paquet .whl ---
+setuptools
+wheel
+build

@@ -17,9 +17,9 @@ def decode_cell(carac: str) -> list:
         raise (e)
 
 
-def main():
+def run_viewer(filename: str):
     try:
-        with open("output_maze.txt", 'r') as output_maze:
+        with open(filename, 'r') as output_maze:
             content = output_maze.read()
     except FileNotFoundError:
         raise FileNotFoundError('"output_maze.txt" not found')
@@ -42,6 +42,3 @@ def main():
     maze.add_cells_in_grid()
     maze.print_maze()
 
-
-if __name__ == "__main__":
-    main()

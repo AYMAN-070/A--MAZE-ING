@@ -1,0 +1,7 @@
+# Configuration du Labyrinthe
+WIDTH=20
+HEIGHT=15
+ENTRY=0,1
+EXIT=5,0
+OUTPUT_FILE=output_maze.txt
+PERFECT=False
