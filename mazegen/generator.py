@@ -123,4 +123,3 @@ We repeat this row of 'height' cells once"""
             path.append(direction)
             end = (prev_x, prev_y)
         return "".join(reversed(path))
-

@@ -88,12 +88,8 @@ def maze_hexa(grid: List[List[int]], solution: str, start: Tuple[int, int],
         print("Error :", e)
 
 
-def main() -> None:
-    if len(sys.argv) != 2:
-        print("Usage: python3 a_maze_ing.py <config_file>")
-        sys.exit(1)
-    config_file = sys.argv[1]
-    raw_config = parse_config(config_file)
+def generate_maze(file_config):
+    raw_config = parse_config(file_config)
     config = validate_and_convert(raw_config)
     gen = MazeGenerator(config['height'], config['width'], config['perfect'])
     grid = gen.generate()
@@ -104,6 +100,41 @@ def main() -> None:
         print("Solution not found !")
     maze_hexa(grid, path, start, end, config['output_file'])
     run_viewer(config['output_file'])
+
+
+def print_menu():
+    from a_maze_ing import generate_maze
+    while True:
+        print("=== A-Maze-ing ===")
+        print("1. Re-generate a new maze")
+        print("2. Show/Hide path from entry to exit")
+        print("3. Rotate maze colors")
+        print("4. Quit")
+        print("Choice? (1-4):")
+        try:
+            choice = int(input())
+            if choice not in [1, 2, 3, 4]:
+                raise (ValueError)
+        except (ValueError, Exception):
+            print("You must choose an option between 1 and 4)")
+            print("===========================================")
+            continue
+        if choice == 1:
+            generate_maze(sys.argv[1])
+        elif choice == 2:
+            print("show path")
+        elif choice == 3:
+            print("rotate colors")
+        elif choice == 4:
+            break
+
+
+def main() -> None:
+    if len(sys.argv) != 2:
+        print("Usage: python3 a_maze_ing.py <config_file>")
+        sys.exit(1)
+    generate_maze(sys.argv[1])
+    print_menu()
 
 
 if __name__ == "__main__":

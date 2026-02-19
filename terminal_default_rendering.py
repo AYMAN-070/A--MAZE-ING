@@ -41,4 +41,3 @@ def run_viewer(filename: str):
     maze = Maze_grid(maze_lines, entry, exit, path)
     maze.add_cells_in_grid()
     maze.print_maze()
-

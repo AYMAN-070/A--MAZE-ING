@@ -63,7 +63,7 @@ class Maze_grid():
             x += 1
         for _ in range(self.width_print):
             print(WALL, end='')
-        print()
+        print("\n")
 
     def check_cells_around(self, x: int, y: int) -> None:
         """Modifie the North-WEST corner in comparison
