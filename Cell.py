@@ -1,19 +1,30 @@
 class Cell():
-    def __init__(self, values: list[int], x: int, y: int):
+    def __init__(self, values: list[int], x: int, y: int, entry: tuple, exit: tuple):
         self.west, self.south, self.east, self.north = values
         self.x: int = int(x)
         self.y: int = int(y)
         corner_NW = self.set_corner(self.north, self.west)
+        self.center = self.set_center(entry, exit)
 
         self.cell_proprities = [
             [corner_NW, self.north],
-            [self.west, 0],
+            [self.west, self.center],
             ]
 
     def set_corner(self, value1: int, value2: int) -> int:
 
         if value1 | value2 == 1:
             return 1
+        return 0
+
+    def set_center(self, entry: int, exit: int) -> int:
+        x_entry, y_entry = entry
+        x_exit, y_exit = exit
+
+        if self.x == int(x_entry) and self.y == int(y_entry):
+            return 2
+        elif self.x == int(x_exit) and self.y == int(y_exit):
+            return 3
         return 0
 
     def __repr__(self):

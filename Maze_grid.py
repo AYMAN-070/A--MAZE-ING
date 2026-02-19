@@ -28,7 +28,7 @@ class Maze_grid():
             line_convert = []
             y = 0
             for cell in line:
-                cell = Cell(decode_cell(cell), x, y) # a voir pour enlever x et y si inutiles
+                cell = Cell(decode_cell(cell), x, y, self.entry, self.exit)
                 line_convert.append(cell)
                 y += 1
             self.grid.append(line_convert)
@@ -38,6 +38,9 @@ class Maze_grid():
         """Print the cells with a boucle of two steps :
         first step print the North of the cells line,
         second step print the middle """
+        # for line in self.grid:
+        #     for cell in line:
+        #         print(cell.cell_proprities)
         x = 0
         for line in self.grid:
             for i in range(2):
@@ -49,6 +52,10 @@ class Maze_grid():
                     for value in values:
                         if value == 1:
                             print(WALL, end='')
+                        elif value == 2:
+                            print(START, end='')
+                        elif value == 3:
+                            print(END, end='')
                         else:
                             print(PATH, end='')
                     y += 1
