@@ -1,5 +1,6 @@
 class Cell():
-    def __init__(self, values: list[int], x: int, y: int, entry: tuple, exit: tuple):
+    def __init__(self, values: list[int],
+                 x: int, y: int, entry: tuple, exit: tuple):
         self.west, self.south, self.east, self.north = values
         self.x: int = int(x)
         self.y: int = int(y)

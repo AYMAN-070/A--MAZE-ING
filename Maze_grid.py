@@ -69,7 +69,9 @@ class Maze_grid():
         """Modifie the North-WEST corner in comparison
         with the three cells around"""
         if x > 0 and y > 0:
-            if self.grid[x - 1][y].west == 1 | self.grid[x][y - 1].north == 1 | self.grid[x - 1][y - 1].east == 1:
+            if (
+                self.grid[x - 1][y].west == 1 or
+                self.grid[x][y - 1].north == 1 or
+                self.grid[x - 1][y - 1].east == 1
+            ):
                 self.grid[x][y].cell_proprities[0][0] = 1
-
-    # def print_enter()
