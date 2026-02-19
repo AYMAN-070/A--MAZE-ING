@@ -84,7 +84,7 @@ We repeat this row of 'height' cells once"""
                         """if there is a wall, we break it"""
                         if wall_to_break == WALL_E:
                             self.grid[y][x] -= WALL_E
-                            self.grid[y][x + 1] -= OPPOSITE[WALL_E]  
+                            self.grid[y][x + 1] -= OPPOSITE[WALL_E]
                         if wall_to_break == WALL_S:
                             self.grid[y][x] -= WALL_S
                             self.grid[y + 1][x] -= OPPOSITE[WALL_S]
