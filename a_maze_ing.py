@@ -112,7 +112,7 @@ def generate_maze(file_config):
 
 def print_menu():
     from a_maze_ing import generate_maze
-    with_path = False
+    # with_path = False
     while True:
         print("=== A-Maze-ing ===")
         print("1. Re-generate a new maze")
