@@ -17,7 +17,7 @@ def decode_cell(carac: str) -> list:
         raise (e)
 
 
-def run_viewer(filename: str):
+def run_viewer(filename: str, with_path=False):
     try:
         with open(filename, 'r') as output_maze:
             content = output_maze.read()
@@ -41,4 +41,4 @@ def run_viewer(filename: str):
     print(path)
     maze = Maze_grid(maze_lines, entry, exit, path)
     maze.set_grid()
-    maze.print_maze(with_path=False)
+    maze.print_maze(with_path)

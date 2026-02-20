@@ -108,12 +108,12 @@ def generate_maze(file_config):
     maze_hexa(grid, path, start, end, config['output_file'])
     os.system('clear' if os.name == 'posix' else 'cls')
     run_viewer(config['output_file'])
-    print_menu()
+    print_menu(config['output_file'])
 
 
-def print_menu():
+def print_menu(filename: str):
     from a_maze_ing import generate_maze
-    # with_path = False
+    with_path = False
     while True:
         print("=== A-Maze-ing ===")
         print("1. Re-generate a new maze")
@@ -133,11 +133,11 @@ def print_menu():
             generate_maze(sys.argv[1])
         elif choice == 2:
             print("show path")
-            # if with_path is False:
-            #     with_path = True
-            # else:
-            #     with_path = False
-            # run_viewer(with_path)
+            if with_path is False:
+                with_path = True
+            else:
+                with_path = False
+            run_viewer(filename, with_path)
         elif choice == 3:
             print("rotate colors")
         elif choice == 4:
