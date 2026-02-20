@@ -3,6 +3,7 @@ from typing import Dict, Any
 from typing import List, Tuple
 from mazegen.generator import MazeGenerator
 from terminal_rendering import run_viewer
+import os
 
 
 def parse_config(file_path: str) -> Dict[str, Any]:
