@@ -22,12 +22,12 @@ def run_viewer(filename: str):
         with open(filename, 'r') as output_maze:
             content = output_maze.read()
     except FileNotFoundError:
-        raise FileNotFoundError('"output_maze.txt" not found')
+        raise FileNotFoundError(f'{filename} not found')
     except PermissionError:
-        print('Attempting access to "output_maze.txt"...')
+        print(f'Attempting access to {filename}')
         raise PermissionError("Security protocols deny access")
     except Exception as e:
-        print('Attempting access to "output_maze.txt"...')
+        print(f'Attempting access to {filename}...')
         raise Exception(f"Unexpected system anomaly - {e}")
 
     maze_infos = content.split("\n\n")
@@ -35,13 +35,10 @@ def run_viewer(filename: str):
     maze_lines = maze_representation.split("\n")
 
     path_infos = maze_infos[1].split("\n")
-    entry = tuple(path_infos[0].split(","))
-    print(entry)
-    exit = tuple(path_infos[1].split(","))
-    print(exit)
+    entry = tuple(int(x) for x in path_infos[0].split(","))
+    exit = tuple(int(x) for x in path_infos[1].split(","))
     path = path_infos[2]
     print(path)
     maze = Maze_grid(maze_lines, entry, exit, path)
-    maze.add_cells_in_grid()
-    maze.print_maze()
-
+    maze.set_grid()
+    maze.print_maze(with_path=False)

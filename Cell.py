@@ -22,5 +22,16 @@ class Cell():
             return 1
         return 0
 
-    def __repr__(self):
-        return "C"
+    def set_center(self, entry: int, exit: int) -> int:
+        x_entry, y_entry = entry
+        x_exit, y_exit = exit
+
+        if self.x == int(x_entry) and self.y == int(y_entry):
+            return 2
+        elif self.x == int(x_exit) and self.y == int(y_exit):
+            return 3
+        return 0
+
+    def put_path(self, direction: tuple(int, int)):
+        if self.cell_proprities[direction[0]][direction[1]] not in [2, 3]:
+            self.cell_proprities[direction[0]][direction[1]] = 4
