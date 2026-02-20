@@ -22,17 +22,17 @@ class Maze_grid():
         from terminal_default_rendering import decode_cell
         """ Convert all cells to Cells instances and
         add thems in grid with theres properties"""
-        x = 0
+        y = 0
         for line in self.brut_lines:
 
             line_convert = []
-            y = 0
+            x = 0
             for cell in line:
                 cell = Cell(decode_cell(cell), x, y, self.entry, self.exit)
                 line_convert.append(cell)
-                y += 1
+                x += 1
             self.grid.append(line_convert)
-            x += 1
+            y += 1
 
     def print_maze(self):
         """Print the cells with a boucle of two steps :

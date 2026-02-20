@@ -3,6 +3,7 @@ from typing import Dict, Any
 from typing import List, Tuple
 from mazegen.generator import MazeGenerator
 from terminal_default_rendering import run_viewer
+import os
 
 
 def parse_config(file_path: str) -> Dict[str, Any]:
@@ -68,7 +69,13 @@ def validate_and_convert(raw_config: Dict[str, Any]) -> Dict[str, Any]:
     valid_config['output_file'] = raw_config.get('OUTPUT_FILE', 'maze.txt')
     if valid_config['width'] < 10 or valid_config['height'] < 10:
         print("Warning : Maze too small for 42 pattern")
-    valid_config['perfect'] = raw_config.get('PERFECT', False)
+    perfect_str = raw_config.get('PERFECT', 'False')
+    valid_config['perfect'] = (str(perfect_str).strip().lower() == 'true')
+    if 'ANIMATE' in raw_config:
+        animate = raw_config.get('ANIMATE', False)
+        valid_config['animate'] = (animate.strip().lower() == 'true')
+    else:
+        valid_config['animate'] = False
     return valid_config
 
 
@@ -92,18 +99,18 @@ def generate_maze(file_config):
     raw_config = parse_config(file_config)
     config = validate_and_convert(raw_config)
     gen = MazeGenerator(config['height'], config['width'], config['perfect'])
-    grid = gen.generate()
+    grid = gen.generate(config['animate'])
     start = config['entry']
     end = config['exit']
     path = gen.solve(start[0], start[1], end[0], end[1])
     if not path:
         print("Solution not found !")
     maze_hexa(grid, path, start, end, config['output_file'])
+    os.system('clear' if os.name == 'posix' else 'cls')
     run_viewer(config['output_file'])
 
 
 def print_menu():
-    from a_maze_ing import generate_maze
     while True:
         print("=== A-Maze-ing ===")
         print("1. Re-generate a new maze")

@@ -36,8 +36,12 @@ def run_viewer(filename: str):
 
     path_infos = maze_infos[1].split("\n")
     entry = tuple(path_infos[0].split(","))
+    print(entry)
     exit = tuple(path_infos[1].split(","))
+    print(exit)
     path = path_infos[2]
+    print(path)
     maze = Maze_grid(maze_lines, entry, exit, path)
     maze.add_cells_in_grid()
     maze.print_maze()
+

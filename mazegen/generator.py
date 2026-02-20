@@ -1,5 +1,7 @@
 import random
 import sys
+import time
+import os
 from collections import deque
 
 WALL_N, WALL_S, WALL_E, WALL_W = 1, 4, 2, 8
@@ -17,7 +19,7 @@ DIR_TO_CHAR = {
     WALL_W: 'W'
 }
 
-sys.setrecursionlimit(5000)
+sys.setrecursionlimit(10000)
 
 
 class MazeGenerator:
@@ -51,9 +53,42 @@ We repeat this row of 'height' cells once"""
             if 0 <= nx < self.width and 0 <= ny < self.height:
                 self.visited.add((nx, ny))
 
-    def sculpt(self, cx: int, cy: int) -> None:
+    def _draw_frame(self, c_x: int, c_y: int):
+        """Clear the terminal and draw the current generation state (Bonus)"""
+        """clear if posix(System linux) else cls (Windows)"""
+        os.system('clear' if os.name == 'posix' else 'cls')
+        WALL = "\033[90m██\033[0m"  # Gris foncé
+        PATH = "\033[97m██\033[0m"    # Blanc brillant
+        for y in range(self.height):
+            top_ligne = ""
+            middle_ligne = ""
+            for x in range(self.width):
+                cell = self.grid[y][x]
+                if (cell & 1) != 0:
+                    top_ligne += WALL + WALL
+                else:
+                    top_ligne += WALL + PATH
+                if x == c_x and y == c_y:
+                    centre = "👀"
+                elif cell == 15:
+                    centre = WALL
+                else:
+                    centre = PATH
+                if (cell & 8) != 0:
+                    middle_ligne += WALL + centre
+                else:
+                    middle_ligne += PATH + centre
+            print(top_ligne)
+            print(middle_ligne)
+        if c_x == self.width - 1 and c_y == self.height - 1:
+            pass
+        time.sleep(0.025)
+
+    def sculpt(self, cx: int, cy: int, animate: bool = False) -> None:
         """cx, cy : Current position"""
         self.visited.add((cx, cy))
+        if animate is True:
+            self._draw_frame(cx, cy)
         direction = [WALL_N, WALL_S, WALL_E, WALL_W]
         random.shuffle(direction)
         for dir_key in direction:
@@ -64,18 +99,20 @@ We repeat this row of 'height' cells once"""
                 if (nx, ny) not in self.visited:
                     self.grid[cy][cx] -= dir_key
                     self.grid[ny][nx] -= OPPOSITE[dir_key]
-                    self.sculpt(nx, ny)
+                    self.sculpt(nx, ny, animate)
 
     def _make_imperfect(self):
         """We scan the grid and randomly remove ~10% of the remaining walls."""
         for y in range(1, self.height - 1):
             for x in range(1, self.width - 1):
+                if self.grid[y][x] == 15:
+                    continue
                 if random.random() < 0.10:
                     """10% probability of breaking a wall here"""
                     direction = []
-                    if x + 1 < self.width - 1:
+                    if x + 1 < self.width - 1 and self.grid[y][x + 1] != 15:
                         direction.append(WALL_E)
-                    if y + 1 < self.height - 1:
+                    if y + 1 < self.height - 1 and self.grid[y + 1][x] != 15:
                         direction.append(WALL_S)
                     if not direction:
                         continue
@@ -84,15 +121,15 @@ We repeat this row of 'height' cells once"""
                         """if there is a wall, we break it"""
                         if wall_to_break == WALL_E:
                             self.grid[y][x] -= WALL_E
-                            self.grid[y][x + 1] -= OPPOSITE[WALL_E]
+                            self.grid[y][x + 1] -= OPPOSITE[WALL_E]  
                         if wall_to_break == WALL_S:
                             self.grid[y][x] -= WALL_S
                             self.grid[y + 1][x] -= OPPOSITE[WALL_S]
 
-    def generate(self):
+    def generate(self, animate: bool = False) -> list:
         """Function to launch the entire process"""
         self._pattern_42()
-        self.sculpt(0, 0)
+        self.sculpt(0, 0, animate)
         if not self.perfect:
             self._make_imperfect()
         return self.grid
@@ -123,3 +160,4 @@ We repeat this row of 'height' cells once"""
             path.append(direction)
             end = (prev_x, prev_y)
         return "".join(reversed(path))
+
