@@ -59,8 +59,6 @@ class MazeGenerator:
         """clear if posix(System linux) else cls (Windows)"""
         os.system('clear' if os.name == 'posix' else 'cls')
         WALL, EMPTY, PATH, START, END = colors
-        # WALL = "\033[90m██\033[0m"  # Gris foncé
-        # EMP = "\033[97m██\033[0m"    # Blanc brillant
         for y in range(self.height):
             top_ligne = ""
             middle_ligne = ""
@@ -86,7 +84,8 @@ class MazeGenerator:
             pass
         time.sleep(0.025)
 
-    def sculpt(self, cx: int, cy: int, animate: bool = False, colors: tuple = None) -> None:
+    def sculpt(self, cx: int, cy: int, animate: bool = False,
+               colors: tuple = None) -> None:
         """cx, cy : Current position"""
         self.visited.add((cx, cy))
         if animate is True:
@@ -162,4 +161,3 @@ class MazeGenerator:
             path.append(direction)
             end = (prev_x, prev_y)
         return "".join(reversed(path))
-
