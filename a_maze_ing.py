@@ -129,7 +129,8 @@ def generate_maze(file_config):
     raw_config = parse_config(file_config)
     config = validate_and_convert(raw_config)
     gen = MazeGenerator(config['height'], config['width'], config['perfect'])
-    grid = gen.generate(config['animate'])
+    current_colors = (WALL, EMPTY, PATH, START, END)
+    grid = gen.generate(config['animate'], colors=current_colors)
     start = config['entry']
     end = config['exit']
     path = gen.solve(start[0], start[1], end[0], end[1])
@@ -160,6 +161,7 @@ def print_menu(filename: str):
             print("===========================================")
             continue
         if choice == 1:
+            with_path = False
             generate_maze(sys.argv[1])
         elif choice == 2:
             if with_path is False:
