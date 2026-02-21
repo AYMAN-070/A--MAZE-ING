@@ -35,15 +35,11 @@ class Maze_grid():
                 self.check_cells_around(x, y)
         self.add_path()
 
-    def print_maze(self, with_path: bool, colors: tuple[str] = None):
-        if colors is None:
-            from a_maze_ing import WALL, EMPTY, PATH, START, END
-        else:
-            WALL, EMPTY, PATH = colors
-            from a_maze_ing import START, END
+    def print_maze(self, with_path: bool, colors: tuple[str]):
         """Print the cells with a boucle of two steps :
         first step print the North of the cells line,
         second step print the middle """
+        WALL, EMPTY, PATH, START, END = colors
         x = 0
         for line in self.grid:
             for i in range(2):

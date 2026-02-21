@@ -28,12 +28,12 @@ def get_random_colors() -> List[str]:
         selection[0],
         selection[1],
         selection[2],
-        "\033[95m██\033[0m",
-        "\033[91m██\033[0m"
     ]
 
 
-WALL, EMPTY, PATH, START, END = get_random_colors()
+WALL, EMPTY, PATH = get_random_colors()
+START = "\033[95m██\033[0m"
+END = "\033[91m██\033[0m"
 
 
 def parse_config(file_path: str) -> Dict[str, Any]:
@@ -137,11 +137,11 @@ def generate_maze(file_config):
         print("Solution not found !")
     maze_hexa(grid, path, start, end, config['output_file'])
     os.system('clear' if os.name == 'posix' else 'cls')
-    run_viewer(config['output_file'])
+    run_viewer(config['output_file'], (WALL, EMPTY, PATH, START, END))
 
 
 def print_menu(filename: str):
-    from a_maze_ing import generate_maze
+    global WALL, EMPTY, PATH
     with_path = False
     while True:
         print("=== A-Maze-ing ===")
@@ -167,13 +167,11 @@ def print_menu(filename: str):
             else:
                 with_path = False
             os.system('clear' if os.name == 'posix' else 'cls')
-            run_viewer(filename, with_path)
+            run_viewer(filename, (WALL, EMPTY, PATH, START, END), with_path)
         elif choice == 3:
-            global WALL, EMPTY, PATH, START, END
-            WALL, EMPTY, PATH, START, END = get_random_colors()
-            new_colors = (WALL, EMPTY, PATH)
+            WALL, EMPTY, PATH = get_random_colors()
             os.system('clear' if os.name == 'posix' else 'cls')
-            run_viewer(filename, with_path, new_colors)
+            run_viewer(filename, (WALL, EMPTY, PATH, START, END), with_path)
         elif choice == 4:
             print("Thank you for using our maze generator")
             sys.exit(0)
