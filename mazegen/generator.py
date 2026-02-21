@@ -3,6 +3,8 @@ import sys
 import time
 import os
 from collections import deque
+from Maze_grid import WALL, EMPTY
+
 
 WALL_N, WALL_S, WALL_E, WALL_W = 1, 4, 2, 8
 OPPOSITE = {WALL_N: WALL_S, WALL_E: WALL_W, WALL_S: WALL_N, WALL_W: WALL_E}
@@ -57,8 +59,8 @@ We repeat this row of 'height' cells once"""
         """Clear the terminal and draw the current generation state (Bonus)"""
         """clear if posix(System linux) else cls (Windows)"""
         os.system('clear' if os.name == 'posix' else 'cls')
-        WALL = "\033[90m██\033[0m"  # Gris foncé
-        PATH = "\033[97m██\033[0m"    # Blanc brillant
+        # WALL = "\033[90m██\033[0m"  # Gris foncé
+        # EMP = "\033[97m██\033[0m"    # Blanc brillant
         for y in range(self.height):
             top_ligne = ""
             middle_ligne = ""
@@ -67,17 +69,17 @@ We repeat this row of 'height' cells once"""
                 if (cell & 1) != 0:
                     top_ligne += WALL + WALL
                 else:
-                    top_ligne += WALL + PATH
+                    top_ligne += WALL + EMPTY
                 if x == c_x and y == c_y:
                     centre = "👀"
                 elif cell == 15:
                     centre = WALL
                 else:
-                    centre = PATH
+                    centre = EMPTY
                 if (cell & 8) != 0:
                     middle_ligne += WALL + centre
                 else:
-                    middle_ligne += PATH + centre
+                    middle_ligne += EMPTY + centre
             print(top_ligne)
             print(middle_ligne)
         if c_x == self.width - 1 and c_y == self.height - 1:

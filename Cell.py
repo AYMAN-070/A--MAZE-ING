@@ -32,6 +32,6 @@ class Cell():
             return 3
         return 0
 
-    def put_path(self, direction: tuple(int, int)):
+    def put_path(self, direction: tuple[int, int]):
         if self.cell_proprities[direction[0]][direction[1]] not in [2, 3]:
             self.cell_proprities[direction[0]][direction[1]] = 4

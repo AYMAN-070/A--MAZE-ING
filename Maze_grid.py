@@ -1,5 +1,6 @@
 from Cell import Cell
 
+# Color: list[str] = 
 WALL = "\033[34m██\033[0m"  # Gris foncé
 EMPTY = "\033[97m██\033[0m"  # Blanc
 START = "\033[95m██\033[0m"  # Violet
