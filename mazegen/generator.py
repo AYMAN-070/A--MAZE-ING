@@ -3,7 +3,6 @@ import sys
 import time
 import os
 from collections import deque
-from Maze_grid import WALL, EMPTY
 
 
 WALL_N, WALL_S, WALL_E, WALL_W = 1, 4, 2, 8
@@ -59,6 +58,7 @@ We repeat this row of 'height' cells once"""
         """Clear the terminal and draw the current generation state (Bonus)"""
         """clear if posix(System linux) else cls (Windows)"""
         os.system('clear' if os.name == 'posix' else 'cls')
+        from a_maze_ing import WALL, EMPTY
         # WALL = "\033[90m██\033[0m"  # Gris foncé
         # EMP = "\033[97m██\033[0m"    # Blanc brillant
         for y in range(self.height):

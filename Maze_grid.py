@@ -1,12 +1,5 @@
 from Cell import Cell
 
-# Color: list[str] = 
-WALL = "\033[34m██\033[0m"  # Gris foncé
-EMPTY = "\033[97m██\033[0m"  # Blanc
-START = "\033[95m██\033[0m"  # Violet
-END = "\033[91m██\033[0m"   # Rouge
-PATH = "\033[36m██\033[0m"   # bleu
-
 
 class Maze_grid():
     def __init__(self, brut_lines: list, entry: tuple, exit: tuple, path: str):
@@ -42,7 +35,12 @@ class Maze_grid():
                 self.check_cells_around(x, y)
         self.add_path()
 
-    def print_maze(self, with_path: bool):
+    def print_maze(self, with_path: bool, colors: tuple[str] = None):
+        if colors is None:
+            from a_maze_ing import WALL, EMPTY, PATH, START, END
+        else:
+            WALL, EMPTY, PATH = colors
+            from a_maze_ing import START, END
         """Print the cells with a boucle of two steps :
         first step print the North of the cells line,
         second step print the middle """

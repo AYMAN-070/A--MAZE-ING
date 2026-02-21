@@ -17,7 +17,8 @@ def decode_cell(carac: str) -> list:
         raise (e)
 
 
-def run_viewer(filename: str, with_path=False):
+def run_viewer(filename: str, with_path=False, colors=None):
+
     try:
         with open(filename, 'r') as output_maze:
             content = output_maze.read()
@@ -38,7 +39,10 @@ def run_viewer(filename: str, with_path=False):
     entry = tuple(int(x) for x in path_infos[0].split(","))
     exit = tuple(int(x) for x in path_infos[1].split(","))
     path = path_infos[2]
-    print(path)
     maze = Maze_grid(maze_lines, entry, exit, path)
     maze.set_grid()
-    maze.print_maze(with_path)
+    if colors:
+        maze.print_maze(with_path, colors)
+    else:
+        maze.print_maze(with_path)
+    

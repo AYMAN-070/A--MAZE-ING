@@ -4,6 +4,36 @@ from typing import List, Tuple
 from mazegen.generator import MazeGenerator
 from terminal_rendering import run_viewer
 import os
+import random
+
+COLORS_DATA = {
+    "blue": "\033[34m██\033[0m",
+    "white": "\033[97m██\033[0m",
+    "grey": "\033[90m██\033[0m",
+    "green": "\033[32m██\033[0m",
+    "yellow": "\033[33m██\033[0m",
+    "cyan": "\033[36m██\033[0m",
+    "light_green": "\033[92m██\033[0m",
+    "light_yellow": "\033[93m██\033[0m",
+    "light_blue": "\033[94m██\033[0m",
+    "light_cyan": "\033[96m██\033[0m",
+}
+
+
+def get_random_colors() -> List[str]:
+    """Sélectionne 3 couleurs uniques et retourne la liste complète."""
+    colors_values = list(COLORS_DATA.values())
+    selection = random.sample(colors_values, 3)
+    return [
+        selection[0],
+        selection[1],
+        selection[2],
+        "\033[95m██\033[0m",
+        "\033[91m██\033[0m"
+    ]
+
+
+WALL, EMPTY, PATH, START, END = get_random_colors()
 
 
 def parse_config(file_path: str) -> Dict[str, Any]:
@@ -108,7 +138,6 @@ def generate_maze(file_config):
     maze_hexa(grid, path, start, end, config['output_file'])
     os.system('clear' if os.name == 'posix' else 'cls')
     run_viewer(config['output_file'])
-    print_menu(config['output_file'])
 
 
 def print_menu(filename: str):
@@ -126,22 +155,28 @@ def print_menu(filename: str):
             if choice not in [1, 2, 3, 4]:
                 raise (ValueError)
         except (ValueError, Exception):
+            os.system('clear' if os.name == 'posix' else 'cls')
             print("You must choose an option between 1 and 4)")
             print("===========================================")
             continue
         if choice == 1:
             generate_maze(sys.argv[1])
         elif choice == 2:
-            print("show path")
             if with_path is False:
                 with_path = True
             else:
                 with_path = False
+            os.system('clear' if os.name == 'posix' else 'cls')
             run_viewer(filename, with_path)
         elif choice == 3:
-            print("rotate colors")
+            global WALL, EMPTY, PATH, START, END
+            WALL, EMPTY, PATH, START, END = get_random_colors()
+            new_colors = (WALL, EMPTY, PATH)
+            os.system('clear' if os.name == 'posix' else 'cls')
+            run_viewer(filename, with_path, new_colors)
         elif choice == 4:
-            break
+            print("Thank you for using our maze generator")
+            sys.exit(0)
 
 
 def main() -> None:
@@ -149,6 +184,7 @@ def main() -> None:
         print("Usage: python3 a_maze_ing.py <config_file>")
         sys.exit(1)
     generate_maze(sys.argv[1])
+    print_menu("output_maze.txt")
 
 
 if __name__ == "__main__":
