@@ -17,7 +17,8 @@ def decode_cell(carac: str) -> list:
         raise (e)
 
 
-def run_viewer(filename: str, colors: tuple[str], with_path=False):
+def run_viewer(filename: str,
+               colors: list[str], with_path=False):
 
     try:
         with open(filename, 'r') as output_maze:

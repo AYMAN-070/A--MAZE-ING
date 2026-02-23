@@ -31,7 +31,7 @@ class MazeGenerator:
         """We create a row of 'width' cells containing 15 /
         We repeat this row of 'height' cells once"""
         self.grid = [[15 for _ in range(width)] for _ in range(height)]
-        self.visited = set()
+        self.visited: set = set()
 
     def _pattern_42(self):
         if self.height < 10 or self.width < 10:
@@ -54,7 +54,7 @@ class MazeGenerator:
             if 0 <= nx < self.width and 0 <= ny < self.height:
                 self.visited.add((nx, ny))
 
-    def _draw_frame(self, c_x: int, c_y: int, colors: tuple):
+    def _draw_frame(self, c_x: int, c_y: int, colors: list[str]):
         """Clear the terminal and draw the current generation state (Bonus)"""
         """clear if posix(System linux) else cls (Windows)"""
         os.system('clear' if os.name == 'posix' else 'cls')
@@ -84,8 +84,8 @@ class MazeGenerator:
             pass
         time.sleep(0.025)
 
-    def sculpt(self, cx: int, cy: int, animate: bool = False,
-               colors: tuple = None) -> None:
+    def sculpt(self, cx: int, cy: int, colors: list[str],
+               animate: bool = False) -> None:
         """cx, cy : Current position"""
         self.visited.add((cx, cy))
         if animate is True:
@@ -100,7 +100,7 @@ class MazeGenerator:
                 if (nx, ny) not in self.visited:
                     self.grid[cy][cx] -= dir_key
                     self.grid[ny][nx] -= OPPOSITE[dir_key]
-                    self.sculpt(nx, ny, animate, colors)
+                    self.sculpt(nx, ny, colors, animate)
 
     def _make_imperfect(self):
         """We scan the grid and randomly remove ~10% of the remaining walls."""
@@ -127,10 +127,10 @@ class MazeGenerator:
                             self.grid[y][x] -= WALL_S
                             self.grid[y + 1][x] -= OPPOSITE[WALL_S]
 
-    def generate(self, animate: bool = False, colors: tuple = None) -> list:
+    def generate(self, colors: list[str], animate: bool = False) -> list:
         """Function to launch the entire process"""
         self._pattern_42()
-        self.sculpt(0, 0, animate, colors)
+        self.sculpt(0, 0, colors, animate)
         if not self.perfect:
             self._make_imperfect()
         return self.grid
@@ -138,7 +138,7 @@ class MazeGenerator:
     def solve(self, x_start: int, y_start: int, x_end: int, y_end: int) -> str:
         """Find the shortest path and return a string like "NNEESW.."""
         queue = deque([(x_start, y_start)])
-        came_from = {}
+        came_from: dict = {}
         came_from[(x_start, y_start)] = None
         while queue:
             cx, cy = queue.popleft()

@@ -3,7 +3,7 @@ from Cell import Cell
 
 class Maze_grid():
     def __init__(self, brut_lines: list, entry: tuple, exit: tuple, path: str):
-        self.grid = []
+        self.grid: list = []
         self.brut_lines: list = brut_lines
         self.entry = entry
         self.exit = exit
@@ -35,7 +35,7 @@ class Maze_grid():
                 self.check_cells_around(x, y)
         self.add_path()
 
-    def print_maze(self, with_path: bool, colors: tuple[str]):
+    def print_maze(self, with_path: bool, colors: list[str]):
         """Print the cells with a boucle of two steps :
         first step print the North of the cells line,
         second step print the middle """

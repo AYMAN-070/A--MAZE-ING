@@ -66,7 +66,7 @@ def parse_config(file_path: str) -> Dict[str, Any]:
 def validate_and_convert(raw_config: Dict[str, Any]) -> Dict[str, Any]:
     """Valide les données brutes et les convertit en types Python utilisables.
     """
-    valid_config = {}
+    valid_config: dict[str, Any] = {}
     try:
         valid_config['width'] = int(raw_config.get('WIDTH', ''))
         valid_config['height'] = int(raw_config.get('HEIGHT', ''))
@@ -129,8 +129,8 @@ def generate_maze(file_config):
     raw_config = parse_config(file_config)
     config = validate_and_convert(raw_config)
     gen = MazeGenerator(config['height'], config['width'], config['perfect'])
-    current_colors = (WALL, EMPTY, PATH, START, END)
-    grid = gen.generate(config['animate'], colors=current_colors)
+    current_colors = [WALL, EMPTY, PATH, START, END]
+    grid = gen.generate(current_colors, config['animate'])
     start = config['entry']
     end = config['exit']
     path = gen.solve(start[0], start[1], end[0], end[1])
@@ -138,7 +138,7 @@ def generate_maze(file_config):
         print("Solution not found !")
     maze_hexa(grid, path, start, end, config['output_file'])
     os.system('clear' if os.name == 'posix' else 'cls')
-    run_viewer(config['output_file'], (WALL, EMPTY, PATH, START, END))
+    run_viewer(config['output_file'], [WALL, EMPTY, PATH, START, END])
 
 
 def print_menu(filename: str):
@@ -169,11 +169,11 @@ def print_menu(filename: str):
             else:
                 with_path = False
             os.system('clear' if os.name == 'posix' else 'cls')
-            run_viewer(filename, (WALL, EMPTY, PATH, START, END), with_path)
+            run_viewer(filename, [WALL, EMPTY, PATH, START, END], with_path)
         elif choice == 3:
             WALL, EMPTY, PATH = get_random_colors()
             os.system('clear' if os.name == 'posix' else 'cls')
-            run_viewer(filename, (WALL, EMPTY, PATH, START, END), with_path)
+            run_viewer(filename, [WALL, EMPTY, PATH, START, END], with_path)
         elif choice == 4:
             print("Thank you for using our maze generator")
             sys.exit(0)

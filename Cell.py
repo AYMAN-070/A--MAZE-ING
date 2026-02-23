@@ -5,15 +5,15 @@ class Cell():
         self.x: int = int(x)
         self.y: int = int(y)
         corner_NW = self.set_corner(self.north, self.west)
-        centre = 0
+        center = 0
 
         if (self.x, self.y) == (int(entry[0]), int(entry[1])):
-            centre = 2
+            center = 2
         elif (self.x, self.y) == (int(exit[0]), int(exit[1])):
-            centre = 3
+            center = 3
         self.cell_proprities = [
             [corner_NW, self.north],
-            [self.west, centre],  # 3. On remplace le 0 par la variable centre
+            [self.west, center],
         ]
 
     def set_corner(self, value1: int, value2: int) -> int:
@@ -22,7 +22,7 @@ class Cell():
             return 1
         return 0
 
-    def set_center(self, entry: int, exit: int) -> int:
+    def set_center(self, entry: tuple[int, int], exit: tuple[int, int]) -> int:
         x_entry, y_entry = entry
         x_exit, y_exit = exit
 
