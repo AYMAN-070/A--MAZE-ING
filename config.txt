@@ -6,4 +6,3 @@ EXIT=5,0
 OUTPUT_FILE=output_maze.txt
 PERFECT=False
 ANIMATE=True
-SEED=42

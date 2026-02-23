@@ -1,5 +1,6 @@
 from Cell import Cell
 from typing import List
+import sys
 
 
 class Maze_grid():
@@ -101,8 +102,11 @@ class Maze_grid():
                     self.grid[y_current][x_current].put_path((0, 1))
                     self.grid[y_current - 1][x_current].put_path((1, 1))
                     self.current_path = (x_current, y_current - 1)
-            except IndexError:
-                raise IndexError("Index value out of grid")
+                else:
+                    raise ValueError
+            except IndexError, ValueError:
+                print("Error : the path format is invalid")
+                sys.exit(1)
 
     def check_cells_around(self, x: int, y: int) -> None:
         """Change the North-WEST corner in comparison with the
