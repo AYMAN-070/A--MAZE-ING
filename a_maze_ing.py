@@ -96,8 +96,6 @@ def validate_and_convert(raw_config: Dict[str, Any]) -> Dict[str, Any]:
         print("Error : Entry and Exit can't be in the same place")
         sys.exit(1)
     valid_config['output_file'] = raw_config.get('OUTPUT_FILE', 'maze.txt')
-    if valid_config['width'] < 10 or valid_config['height'] < 10:
-        print("Warning : Maze too small for 42 pattern")
     perfect_str = raw_config.get('PERFECT', 'False')
     valid_config['perfect'] = (str(perfect_str).strip().lower() == 'true')
     if 'ANIMATE' in raw_config:
@@ -105,11 +103,20 @@ def validate_and_convert(raw_config: Dict[str, Any]) -> Dict[str, Any]:
         valid_config['animate'] = (animate.strip().lower() == 'true')
     else:
         valid_config['animate'] = False
+    if 'SEED' in raw_config:
+        seed = raw_config.get('SEED')
+    if not seed:
+        print("Error: The SEED value is empty in the configuration file.",
+              file=sys.stderr)
+        sys.exit(1)
+    else:
+        valid_config['seed'] = seed
     return valid_config
 
 
 def maze_hexa(grid: List[List[int]], solution: str, start: Tuple[int, int],
-              end: Tuple[int, int], filename: str):
+              end: Tuple[int, int], filename: str) -> None:
+    """Generate the configuration file output_maze.txt"""
     try:
         with open(filename, 'w') as f:
             for row in grid:
@@ -124,11 +131,15 @@ def maze_hexa(grid: List[List[int]], solution: str, start: Tuple[int, int],
         print("Error :", e)
 
 
-def generate_maze(file_config: str):
+def generate_maze(file_config: str) -> None:
     """Parse the config, define the MazeGenerator, generate a
     maze randomly with the configuration given, then display it"""
     raw_config = parse_config(file_config)
     config = validate_and_convert(raw_config)
+    if 'seed' in config and config['seed'] is not None:
+        random.seed(config['seed'])
+    else:
+        random.seed()
     gen = MazeGenerator(config['height'], config['width'], config['perfect'])
     current_colors = [WALL, EMPTY, PATH, START, END]
     grid = gen.generate(current_colors, config['animate'])

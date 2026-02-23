@@ -8,8 +8,8 @@ class Maze_grid():
     every Cells, the start, the end, the width and the height and the path.
     A methode is available to print the maze_grid.
     """
-    def __init__(self, brut_lines: List[str],
-                 entry: tuple[int, int], exit: tuple[int, int], path: str):
+    def __init__(self, brut_lines: List[str], entry: tuple[int, int],
+                 exit: tuple[int, int], path: str) -> None:
         self.grid: List[list[Cell]] = []
         self.brut_lines: List[str] = brut_lines
         self.entry: tuple[int, int] = entry
@@ -20,7 +20,7 @@ class Maze_grid():
         self.height = len(brut_lines) - 1
         self.current_path: tuple[int, int] = entry
 
-    def set_grid(self):
+    def set_grid(self) -> None:
         """
         Convert all cells to Cells instances and add thems in grid with theres
         properties. Check the cells around to adapt the commun walls.
@@ -32,9 +32,10 @@ class Maze_grid():
             for line in self.brut_lines:
                 line_convert: List[Cell] = []
                 x = 0
-                for cell in line:
-                    cell = Cell(decode_cell(cell), x, y, self.entry, self.exit)
-                    line_convert.append(cell)
+                for char_cell in line:
+                    new_cell = Cell(decode_cell(char_cell), x, y, self.entry,
+                                    self.exit)
+                    line_convert.append(new_cell)
                     x += 1
                 self.grid.append(line_convert)
                 y += 1
@@ -46,7 +47,7 @@ class Maze_grid():
             print("No path founded")
         self.add_path()
 
-    def print_maze(self, with_path: bool, colors: list[str]):
+    def print_maze(self, with_path: bool, colors: list[str]) -> None:
         """Print the cells with a boucle of two steps :
         first step print the North of the cells line,
         second step print the middle """
@@ -78,7 +79,7 @@ class Maze_grid():
             print(WALL, end='')
         print("\n")
 
-    def add_path(self):
+    def add_path(self) -> None:
         """Read the path generated and add it in the concerning
         cells depending the given direction"""
         for carac in self.path:

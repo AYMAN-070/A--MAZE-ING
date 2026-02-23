@@ -18,7 +18,7 @@ def decode_cell(carac: str) -> List[int]:
 
 
 def run_viewer(filename: str,
-               colors: list[str], with_path: bool = False):
+               colors: list[str], with_path: bool = False) -> None:
     """Parse the output_maze.txt file. Initialize a Maze_grid, decode the maze
     representation in a list of line of Cells, get the entry and the exit,
     and then print the maze"""

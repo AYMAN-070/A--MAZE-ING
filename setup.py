@@ -7,5 +7,5 @@ setup(
     author="ayhammou & evarache",
     author_email="evarache@student.42lyon.fr & ayhammou@student.42lyon.fr",
     packages=find_packages(),
-    python_requires='>=3.7',
+    python_requires='>=3.10',
 )
