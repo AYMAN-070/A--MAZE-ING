@@ -1,6 +1,6 @@
 flake8
 mypy
-# --- Outils pour créer le paquet .whl ---
+# --- Utils to create the package .whl ---
 setuptools
 wheel
 build

@@ -1,2 +1,4 @@
 *.pyc
+*.mypy_cache
+*.pyc
 output_maze.txt

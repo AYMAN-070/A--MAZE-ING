@@ -1,4 +1,4 @@
-# Configuration du Labyrinthe
+# Configuration of the maze
 WIDTH=12
 HEIGHT=15
 ENTRY=0,1

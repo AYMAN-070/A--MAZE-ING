@@ -147,7 +147,7 @@ def print_menu(filename: str) -> None:
     global WALL, EMPTY, PATH
     with_path = False
     while True:
-        print("=== A-Maze-ing ===")
+        print("₪₪₪₪₪₪₪₪₪₪ A-Maze-ing ₪₪₪₪₪₪₪₪₪₪₪₪₪₪₪₪₪₪₪₪")
         print("1. Re-generate a new maze")
         print("2. Show/Hide path from entry to exit")
         print("3. Rotate maze colors")
@@ -160,7 +160,7 @@ def print_menu(filename: str) -> None:
         except (ValueError, Exception):
             os.system('clear' if os.name == 'posix' else 'cls')
             print("You must choose an option between 1 and 4)")
-            print("===========================================")
+            print("₪₪₪₪₪₪₪₪₪₪₪₪₪₪₪₪₪₪₪₪₪₪₪₪₪₪₪₪₪₪₪₪₪₪₪₪₪₪₪₪₪₪")
             continue
         if choice == 1:
             with_path = False
@@ -177,12 +177,13 @@ def print_menu(filename: str) -> None:
             os.system('clear' if os.name == 'posix' else 'cls')
             run_viewer(filename, [WALL, EMPTY, PATH, START, END], with_path)
         elif choice == 4:
-            print("Thank you for using our maze generator")
+            print("\nThank you for using our maze generator! ₪₪")
             sys.exit(0)
 
 
 def main() -> None:
     if len(sys.argv) != 2:
+        print("Error : too many arguments provided")
         print("Usage: python3 a_maze_ing.py <config_file>")
         sys.exit(1)
     generate_maze(sys.argv[1])
