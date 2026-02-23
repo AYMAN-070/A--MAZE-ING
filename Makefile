@@ -16,8 +16,8 @@ clean:
 		rm -rf *.pyc
 lint:
 		@echo "--- Running Flake8---"
-		flake8 $(MAIN_FILE)
-		@echo "--- Running Mypy"
-		mypy $(MYPY_FLAGS) $(MAIN_FILE)
+		python3 -m flake8 .
+		@echo "--- Running Mypy---"
+		python3 -m mypy $(MYPY_FLAGS) .
 
 .PHONY: install run debug clean lint

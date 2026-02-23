@@ -9,7 +9,7 @@ class Cell():
     duplicates with the commun walls.
     """
     def __init__(self, values: list[int], x: int, y: int,
-                 entry: tuple[int, int], exit: tuple[int, int]):
+                 entry: tuple[int, int], exit: tuple[int, int]) -> None:
         self.west, self.south, self.east, self.north = values
         self.x: int = int(x)
         self.y: int = int(y)
@@ -44,7 +44,7 @@ class Cell():
             return 3
         return 0
 
-    def put_path(self, direction: tuple[int, int]):
+    def put_path(self, direction: tuple[int, int]) -> None:
         """Modifie the cell_proprities to add the path, the path is set to 4"""
         if self.cell_proprities[direction[0]][direction[1]] not in [2, 3]:
             self.cell_proprities[direction[0]][direction[1]] = 4

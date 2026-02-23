@@ -33,8 +33,14 @@ class MazeGenerator:
         self.grid: list = [[15 for _ in range(width)] for _ in range(height)]
         self.visited: set = set()
 
-    def _pattern_42(self):
+    def _pattern_42(self) -> None:
+        """reserve pattern 42 so that it is not sculpted"""
         if self.height < 10 or self.width < 10:
+            import sys
+            import time
+            print("Warning: Maze size too small to draw the 42 pattern",
+                  file=sys.stderr)
+            time.sleep(2)
             return
         center_x = self.width // 2
         center_y = self.height // 2
@@ -54,7 +60,7 @@ class MazeGenerator:
             if 0 <= nx < self.width and 0 <= ny < self.height:
                 self.visited.add((nx, ny))
 
-    def _draw_frame(self, c_x: int, c_y: int, colors: list[str]):
+    def _draw_frame(self, c_x: int, c_y: int, colors: list[str]) -> None:
         """Clear the terminal and draw the current generation state (Bonus)"""
         """clear if posix(System linux) else cls (Windows)"""
         os.system('clear' if os.name == 'posix' else 'cls')
@@ -86,6 +92,7 @@ class MazeGenerator:
 
     def sculpt(self, cx: int, cy: int, colors: list[str],
                animate: bool = False) -> None:
+        """create paths between the squares, create a perfect maze"""
         """cx, cy : Current position"""
         self.visited.add((cx, cy))
         if animate is True:
@@ -102,7 +109,7 @@ class MazeGenerator:
                     self.grid[ny][nx] -= OPPOSITE[dir_key]
                     self.sculpt(nx, ny, colors, animate)
 
-    def _make_imperfect(self):
+    def _make_imperfect(self) -> None:
         """We scan the grid and randomly remove ~10% of the remaining walls."""
         for y in range(1, self.height - 1):
             for x in range(1, self.width - 1):
