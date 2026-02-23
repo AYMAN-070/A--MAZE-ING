@@ -66,45 +66,54 @@ def parse_config(file_path: str) -> Dict[str, Any]:
 def validate_and_convert(raw_config: Dict[str, Any]) -> Dict[str, Any]:
     """Validate brut datas and convert them into python types useables"""
     valid_config: dict[str, Any] = {}
+    required_keys = ['WIDTH', 'HEIGHT', 'ENTRY', 'EXIT', 'OUTPUT_FILE',
+                     'PERFECT']
+    for key in required_keys:
+        if key not in raw_config:
+            raise ValueError(f"Missing mandatory key '{key}'")
     try:
         valid_config['width'] = int(raw_config.get('WIDTH', ''))
         valid_config['height'] = int(raw_config.get('HEIGHT', ''))
         if valid_config['width'] < 5 or valid_config['height'] < 5:
-            print("Error: The size of the maze must be at least 5x5.")
-            sys.exit(1)
-    except ValueError:
-        print("Error: WIDTH or HEIGHT should be integers")
-        sys.exit(1)
+            raise ValueError("The size of the maze must be at least 5x5.")
+    except ValueError as e:
+        if "size" in str(e):
+            raise
+        raise ValueError("WIDTH or HEIGHT should be integers")
     for key in ['ENTRY', 'EXIT']:
         try:
-            raw_val = raw_config.get(key, '')
+            raw_val = raw_config[key].strip()
             if not raw_val:
-                raise ValueError("Missing value")
+                raise ValueError
             parts = raw_val.split(',')
             if len(parts) != 2:
-                raise ValueError("Format incorrect")
+                raise ValueError
             x, y = int(parts[0]), int(parts[1])
-            if not (0 <= x < valid_config['width']
-               or not 0 <= y < valid_config['height']):
-                print(f"Error : {key}({x},{y}) out of the maze size")
-                sys.exit(1)
+            if not (0 <= x < valid_config['width'] and
+                    0 <= y < valid_config['height']):
+                raise ValueError(f"{key}({x},{y}) out of the maze size")
             valid_config[key.lower()] = (x, y)
-        except ValueError:
-            print(f"Error : {key} should be in 'x,y' format with integers "
+        except (ValueError, AttributeError) as e:
+            if str(e):
+                raise e
+            raise ValueError(f"{key} should be in 'x,y' format with integers "
                   "(ex: 0,0).")
     if valid_config['entry'] == valid_config['exit']:
-        print("Error : Entry and Exit can't be in the same place")
-        sys.exit(1)
-    valid_config['output_file'] = raw_config.get('OUTPUT_FILE', 'maze.txt')
-    if valid_config['width'] < 10 or valid_config['height'] < 10:
-        print("Warning : Maze too small for 42 pattern")
+        raise ValueError("Error : Entry and Exit can't be in the same place")
+    valid_config['output_file'] = raw_config.get('OUTPUT_FILE',
+                                                 'output_maze.txt')
     perfect_str = raw_config.get('PERFECT', 'False')
     valid_config['perfect'] = (str(perfect_str).strip().lower() == 'true')
-    if 'ANIMATE' in raw_config:
-        animate = raw_config.get('ANIMATE', False)
-        valid_config['animate'] = (animate.strip().lower() == 'true')
+    animate = raw_config.get('ANIMATE', 'False')
+    valid_config['animate'] = (str(animate).strip().lower() == 'true')
+    if 'SEED' in raw_config:
+        seed = raw_config.get('SEED')
+        if not seed:
+            raise ValueError("The SEED value is empty in the"
+                  "configuration file.")
+        valid_config['seed'] = seed
     else:
-        valid_config['animate'] = False
+        valid_config['seed'] = None
     return valid_config
 
 
@@ -187,7 +196,11 @@ def main() -> None:
         print("Error : too many arguments provided")
         print("Usage: python3 a_maze_ing.py <config_file>")
         sys.exit(1)
-    generate_maze(sys.argv[1])
+    try:
+        generate_maze(sys.argv[1])
+    except Exception as e:
+        print(f"Error: {e}", file=sys.stderr)
+        sys.exit(1)
 
 
 if __name__ == "__main__":
