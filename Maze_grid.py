@@ -1,38 +1,49 @@
 from Cell import Cell
+from typing import List
 
 
 class Maze_grid():
-    def __init__(self, brut_lines: list, entry: tuple, exit: tuple, path: str):
-        self.grid: list = []
-        self.brut_lines: list = brut_lines
-        self.entry = entry
-        self.exit = exit
+    """
+    Create an instance of Maze, able to store a grid representation with
+    every Cells, the start, the end, the width and the height and the path.
+    A methode is available to print the maze_grid.
+    """
+    def __init__(self, brut_lines: List[str],
+                 entry: tuple[int, int], exit: tuple[int, int], path: str):
+        self.grid: List[list[Cell]] = []
+        self.brut_lines: List[str] = brut_lines
+        self.entry: tuple[int, int] = entry
+        self.exit: tuple[int, int] = exit
         self.path = path
-        self.width_print = 2 * len(brut_lines[0]) + 1
+        self.width_print: int = 2 * len(brut_lines[0]) + 1
         self.width = len(brut_lines[0]) - 1
         self.height = len(brut_lines) - 1
-        self.current_path = entry
+        self.current_path: tuple[int, int] = entry
 
     def set_grid(self):
+        """
+        Convert all cells to Cells instances and add thems in grid with theres
+        properties. Check the cells around to adapt the commun walls.
+        Add the path in the concerning cells.
+        """
         from terminal_rendering import decode_cell
-        """ Convert all cells to Cells instances and
-        add thems in grid with theres properties
-        Check the cells around to adapt the commun walls
-        Add the path in the concerning cells """
         y = 0
-        for line in self.brut_lines:
-            line_convert = []
-            x = 0
-            for cell in line:
-                cell = Cell(decode_cell(cell), x, y, self.entry, self.exit)
-                line_convert.append(cell)
-                x += 1
-            self.grid.append(line_convert)
-            y += 1
+        if self.brut_lines:
+            for line in self.brut_lines:
+                line_convert: List[Cell] = []
+                x = 0
+                for cell in line:
+                    cell = Cell(decode_cell(cell), x, y, self.entry, self.exit)
+                    line_convert.append(cell)
+                    x += 1
+                self.grid.append(line_convert)
+                y += 1
 
-        for y in range(0, len(self.brut_lines)):
-            for x in range(0, len(line)):
-                self.check_cells_around(x, y)
+            for y in range(0, len(self.brut_lines)):
+                for x in range(0, len(self.brut_lines[0])):
+                    self.check_cells_around(x, y)
+        else:
+            print("No path founded")
         self.add_path()
 
     def print_maze(self, with_path: bool, colors: list[str]):
@@ -68,6 +79,8 @@ class Maze_grid():
         print("\n")
 
     def add_path(self):
+        """Read the path generated and add it in the concerning
+        cells depending the given direction"""
         for carac in self.path:
             x_current, y_current = self.current_path
             try:
@@ -91,8 +104,8 @@ class Maze_grid():
                 raise IndexError("Index value out of grid")
 
     def check_cells_around(self, x: int, y: int) -> None:
-        """Modifie the North-WEST corner in comparison
-        with the three cells around"""
+        """Change the North-WEST corner in comparison with the
+        three cells around, whose corner is shared with the cell checked"""
         if x > 0 and y > 0:
             if (
                 self.grid[y][x - 1].west == 1 or

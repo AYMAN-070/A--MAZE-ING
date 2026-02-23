@@ -1,10 +1,10 @@
 from Maze_grid import Maze_grid
+from typing import List
 
 
-def decode_cell(carac: str) -> list:
+def decode_cell(carac: str) -> List[int]:
     """Return a list with the four wall values
     unpackable with WEST, SOUTH, EAST, NORTH"""
-
     walls_proprieties: list[int] = [0, 0, 0, 0]
     try:
         cell = int(carac, 16)
@@ -18,8 +18,10 @@ def decode_cell(carac: str) -> list:
 
 
 def run_viewer(filename: str,
-               colors: list[str], with_path=False):
-
+               colors: list[str], with_path: bool = False):
+    """Parse the output_maze.txt file. Initialize a Maze_grid, decode the maze
+    representation in a list of line of Cells, get the entry and the exit,
+    and then print the maze"""
     try:
         with open(filename, 'r') as output_maze:
             content = output_maze.read()
@@ -37,8 +39,13 @@ def run_viewer(filename: str,
     maze_lines = maze_representation.split("\n")
 
     path_infos = maze_infos[1].split("\n")
-    entry = tuple(int(x) for x in path_infos[0].split(","))
-    exit = tuple(int(x) for x in path_infos[1].split(","))
+
+    parts_entry = path_infos[0].split(",")
+    entry: tuple[int, int] = (int(parts_entry[0]), int(parts_entry[1]))
+
+    parts_exit = path_infos[1].split(",")
+    exit: tuple[int, int] = (int(parts_exit[0]), int(parts_exit[1]))
+
     path = path_infos[2]
     maze = Maze_grid(maze_lines, entry, exit, path)
     maze.set_grid()

@@ -21,7 +21,7 @@ COLORS_DATA = {
 
 
 def get_random_colors() -> List[str]:
-    """Sélectionne 3 couleurs uniques et retourne la liste complète."""
+    """Return a list of 3 uniques colors selected randomly"""
     colors_values = list(COLORS_DATA.values())
     selection = random.sample(colors_values, 3)
     return [
@@ -37,7 +37,7 @@ END = "\033[91m██\033[0m"
 
 
 def parse_config(file_path: str) -> Dict[str, Any]:
-    """Lit le fichier de configuration et retourne un dictionnaire"""
+    """Read the configuration file and retourn a dictionnary"""
     config: Dict[str, Any] = {}
     try:
         with open(file_path, 'r') as file:
@@ -49,7 +49,7 @@ def parse_config(file_path: str) -> Dict[str, Any]:
                     key, value = line.split('=', 1)
                     config[key.strip()] = value.strip()
                 else:
-                    print("Attention: format invalid", line)
+                    print("Error: invalid format", line)
     except FileNotFoundError:
         print(f"Error: file {file_path} not found")
         sys.exit(1)
@@ -64,8 +64,7 @@ def parse_config(file_path: str) -> Dict[str, Any]:
 
 
 def validate_and_convert(raw_config: Dict[str, Any]) -> Dict[str, Any]:
-    """Valide les données brutes et les convertit en types Python utilisables.
-    """
+    """Validate brut datas and convert them into python types useables"""
     valid_config: dict[str, Any] = {}
     try:
         valid_config['width'] = int(raw_config.get('WIDTH', ''))
@@ -125,7 +124,9 @@ def maze_hexa(grid: List[List[int]], solution: str, start: Tuple[int, int],
         print("Error :", e)
 
 
-def generate_maze(file_config):
+def generate_maze(file_config: str):
+    """Parse the config, define the MazeGenerator, generate a
+    maze randomly with the configuration given, then display it"""
     raw_config = parse_config(file_config)
     config = validate_and_convert(raw_config)
     gen = MazeGenerator(config['height'], config['width'], config['perfect'])
@@ -141,7 +142,8 @@ def generate_maze(file_config):
     run_viewer(config['output_file'], [WALL, EMPTY, PATH, START, END])
 
 
-def print_menu(filename: str):
+def print_menu(filename: str) -> None:
+    """Display the menu and propose differents choices to the user"""
     global WALL, EMPTY, PATH
     with_path = False
     while True:
