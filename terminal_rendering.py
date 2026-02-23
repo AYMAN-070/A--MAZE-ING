@@ -1,6 +1,7 @@
 from Maze_grid import Maze_grid
 from parse_output import read_output, parse_output
 from typing import List, Dict, Any
+import sys
 
 
 def decode_cell(carac: str) -> List[int]:
@@ -15,7 +16,8 @@ def decode_cell(carac: str) -> List[int]:
             cell = cell >> 1
         return walls_proprieties
     except ValueError as e:
-        raise (e)
+        print(f"Error while decoding cell from output : {e}")
+        sys.exit(1)
 
 
 def run_viewer(config: Dict[str, Any],

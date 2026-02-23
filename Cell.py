@@ -1,3 +1,6 @@
+import sys
+
+
 class Cell():
     """
     Create an instance of Cell, able to store all the information of it,
@@ -46,5 +49,8 @@ class Cell():
 
     def put_path(self, direction: tuple[int, int]) -> None:
         """Modifie the cell_proprities to add the path, the path is set to 4"""
-        if self.cell_proprities[direction[0]][direction[1]] not in [2, 3]:
+        if self.cell_proprities[direction[0]][direction[1]] == 1:
+            print("Error in the output : the path cross a wall")
+            sys.exit(1)
+        elif self.cell_proprities[direction[0]][direction[1]] not in [2, 3]:
             self.cell_proprities[direction[0]][direction[1]] = 4

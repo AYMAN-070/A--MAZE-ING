@@ -107,6 +107,8 @@ class Maze_grid():
             except IndexError, ValueError:
                 print("Error : the path format is invalid")
                 sys.exit(1)
+        if self.current_path != self.exit:
+            print("Error : the path of the output is invalid")
 
     def check_cells_around(self, x: int, y: int) -> None:
         """Change the North-WEST corner in comparison with the
