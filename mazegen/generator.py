@@ -25,12 +25,12 @@ sys.setrecursionlimit(10000)
 
 class MazeGenerator:
     def __init__(self, height: int, width: int, perfect: bool = True) -> None:
-        self.height = height
-        self.width = width
-        self.perfect = perfect
+        self.height: int = height
+        self.width: int = width
+        self.perfect: bool = perfect
         """We create a row of 'width' cells containing 15 /
         We repeat this row of 'height' cells once"""
-        self.grid = [[15 for _ in range(width)] for _ in range(height)]
+        self.grid: list = [[15 for _ in range(width)] for _ in range(height)]
         self.visited: set = set()
 
     def _pattern_42(self):
