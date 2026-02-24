@@ -1,4 +1,4 @@
-_This project has been created as part of the 42 curriculum by ayhammou, evarache_.
+*This project has been created as part of the 42 curriculum by ayhammou, evarache.*
 
 # Description
 
@@ -16,10 +16,14 @@ The programme takes one parameter, the file containing the configuration of the 
 												ANIMATE=False  
 
 ## Algorithm
---------------------------------------------TO DO------------------------------------------
-The maze generation algorithm you chose.
-• Why you chose this algorithm.
+We used two distinct algorithms for this project: one to build the maze, and one to solve it.
 
+Generation: Recursive Backtracker (DFS)
+Why we chose it: We chose this algorithm because it is easy to implement and naturally creates complex mazes with long, winding corridors and tricky dead ends.
+How it works: By default, this algorithm always creates a perfect maze (a maze where there is exactly one unique path between any two points ). If the configuration file asks for an imperfect maze, we simply take this perfect maze and break down a few extra walls at the end to create loops and multiple possible paths.
+
+Solving: Breadth-First Search (BFS)
+Why we chose it: While DFS is great for digging deep into the maze randomly, BFS explores the maze level by level, like a wave of water spreading outwards. We chose it because it mathematically guarantees finding the shortest valid path from the entry to the exit, which is a core requirement of the project.
 
 ## Output
 The generator create an output file that is used to display the maze. In this output, the maze is represented using one hexadecimal digit per cell, where each digit encodes which walls are closed:
@@ -65,9 +69,25 @@ The maze generated will be displayed in the terminal, with the patern 42 in this
 If in the config file the parameter animate is set at True, the maze will be generate with an animation, that will display every path and wall creation.
 
 ## Reusability
------------------------------------------------TO DO-----------------------------------------------  
-What part of your code is reusable, and how.
 
+The entire maze generation logic is decoupled from the terminal viewer and acts as a standalone, reusable Python package. The package is named mazegen and can be easily imported into any future project.
+You can build and install the package locally from the root of this repository:
+python3 -m build
+pip install dist/mazegen-1.0.0-py3-none-any.whl
+
+Here is a basic example of how to instantiate the generator, pass custom parameters (like size and seed), and access both the generated structure and the path solution:
+Usage Example:
+Here is a basic example of how to instantiate the generator, pass custom parameters (like size and perfect), and access both the generated structure and the path solution:
+
+from mazegen.generator import MazeGenerator
+1. Instantiate the generator with custom parameters
+generator = MazeGenerator(width=20, height=15, perfect=True)
+2. Access the generated structure
+maze_grid = generator.generate(animate=False)
+3. Access the solution
+path_solution = generator.solve(x_start=0, y_start=1, x_end=19, y_end=13)
+
+print(f"Shortest path found: {path_solution}")
 
 # Instructions
 
@@ -101,14 +121,19 @@ To run the project with flake8 and mypy :
 
 
 ## Planning
-We divided the work into two parts: the generator and the rendering, then we each worked on one part. After putting our work in common, we tested our code and added error handling.
+
+Initially, we planned to work sequentially (first building the generation engine, then coding the visual rendering). However, to be more efficient, our planning quickly evolved into a parallel workflow. One team member focused purely on the back-end (generation logic, math, solving, reusability) while the other focused on the front-end (terminal rendering, colors, menus, animation). We defined a strict data format early on so both parts could communicate smoothly.
 
 
 ## Balance-sheet
 
-We had a good communication and a good assiduity on this project, that allow us to be efficient and finish it quickly. We also made a good distribution of the work, and it was easy to use the other's code.
+**What worked well:**  
+We had a good communication and a good assiduity on this project, that allow us to be efficient and finish it quickly. Decoupling the generation logic from the visual rendering worked perfectly. Using a simple text output format (hexadecimal strings) as a bridge between the backend generator and the frontend viewer allowed us to test and debug our modules independently without breaking each other's code.
 
+**What could be improved:**   
 We could improve our commun work, like work with pair programming, and have more thinking together. That could allow us to have a better harmoniation of our code.
+Merging the visual path-drawing with the logical solving string ("SSS...") required some last-minute logic adjustments to match the 2x2 cell visual scale in the terminal. Better anticipating the translation from logical grid coordinates to visual rendering scale early on would have saved us some debugging time.
+
 
 ## Specific tools
 
@@ -116,7 +141,7 @@ We used mypy to check typing errors.
 
 # Resources
 
-w3schools : https://www.w3schools.com/python/default.asp
-Python documentation : https://docs.python.org/3/
+w3schools : https://www.w3schools.com/python/default.asp  
+Python documentation : https://docs.python.org/3/  
 
 AI was used to create the panel of the colors for display.

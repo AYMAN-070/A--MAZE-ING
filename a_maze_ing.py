@@ -139,6 +139,10 @@ def generate_maze(file_config: str):
     maze randomly with the configuration given, then display it"""
     raw_config = parse_config(file_config)
     config = validate_and_convert(raw_config)
+    if 'seed' in config and config['seed'] is not None:
+        random.seed(int(config['seed']))
+    else:
+        random.seed()
     gen = MazeGenerator(config['height'], config['width'], config['perfect'])
     current_colors = [WALL, EMPTY, PATH, START, END, PATERN]
     grid = gen.generate(current_colors, config['animate'])
