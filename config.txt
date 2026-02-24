@@ -1,8 +1,8 @@
 # Configuration of the maze
-WIDTH=12
-HEIGHT=15
+WIDTH=10
+HEIGHT=9
 ENTRY=0,1
 EXIT=5,0
 OUTPUT_FILE=output_maze.txt
 PERFECT=False
-ANIMATE=True
+ANIMATE=False
