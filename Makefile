@@ -9,7 +9,7 @@ install:
 run:
 		$(PYTHON) $(MAIN_FILE) $(CONFIG_FILE)
 debug:
-		$(PYTHON) -m pdp $(MAIN_FILE) $(CONFIG_FILE)
+		$(PYTHON) -m pdb $(MAIN_FILE) $(CONFIG_FILE)
 clean:
 		rm -rf __pycache__
 		rm -rf .mypy_cache
