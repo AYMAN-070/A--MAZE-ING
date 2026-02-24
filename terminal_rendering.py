@@ -20,7 +20,7 @@ def decode_cell(carac: str) -> List[int]:
         sys.exit(1)
 
 
-def run_viewer(config: Dict[str, Any],
+def run_viewer(config: Dict[str, Any], patern: set,
                colors: list[str], with_path: bool = False) -> None:
     """Initialize a Maze_grid, decode the maze
     representation in a list of line of Cells, get the entry and the exit,
@@ -32,7 +32,8 @@ def run_viewer(config: Dict[str, Any],
         viewer_config['maze_lines'],
         viewer_config['entry'],
         viewer_config['exit'],
-        viewer_config['path']
+        viewer_config['path'],
+        patern
         )
 
     maze.set_grid()

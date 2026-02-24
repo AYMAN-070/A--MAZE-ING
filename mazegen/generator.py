@@ -32,6 +32,7 @@ class MazeGenerator:
         We repeat this row of 'height' cells once"""
         self.grid: list = [[15 for _ in range(width)] for _ in range(height)]
         self.visited: set = set()
+        self.patern: set = set()
 
     def _pattern_42(self) -> None:
         """reserve pattern 42 so that it is not sculpted"""
@@ -58,13 +59,13 @@ class MazeGenerator:
             nx = center_x + dx
             ny = center_y + dy
             if 0 <= nx < self.width and 0 <= ny < self.height:
-                self.visited.add((nx, ny))
+                self.patern.add((nx, ny))
 
     def _draw_frame(self, c_x: int, c_y: int, colors: list[str]) -> None:
         """Clear the terminal and draw the current generation state (Bonus)"""
         """clear if posix(System linux) else cls (Windows)"""
         os.system('clear' if os.name == 'posix' else 'cls')
-        WALL, EMPTY, PATH, START, END = colors
+        WALL, EMPTY, PATH, START, END, PATERN = colors
         for y in range(self.height):
             top_ligne = ""
             middle_ligne = ""
@@ -104,7 +105,8 @@ class MazeGenerator:
             """Neighbor x, Neighbor y"""
             nx, ny = cx + dx, cy + dy
             if 0 <= nx < self.width and 0 <= ny < self.height:
-                if (nx, ny) not in self.visited:
+                if ((nx, ny) not in self.visited and
+                   (nx, ny) not in self.patern):
                     self.grid[cy][cx] -= dir_key
                     self.grid[ny][nx] -= OPPOSITE[dir_key]
                     self.sculpt(nx, ny, colors, animate)

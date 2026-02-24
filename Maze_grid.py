@@ -10,7 +10,8 @@ class Maze_grid():
     A methode is available to print the maze_grid.
     """
     def __init__(self, brut_lines: List[str], entry: tuple[int, int],
-                 exit: tuple[int, int], path: str) -> None:
+                 exit: tuple[int, int], path: str, patern: set) -> None:
+        """Initialize a grid with the lines, entry, exit and path"""
         self.grid: List[list[Cell]] = []
         self.brut_lines: List[str] = brut_lines
         self.entry: tuple[int, int] = entry
@@ -20,6 +21,7 @@ class Maze_grid():
         self.width = len(brut_lines[0]) - 1
         self.height = len(brut_lines) - 1
         self.current_path: tuple[int, int] = entry
+        self.patern: set = patern
 
     def set_grid(self) -> None:
         """
@@ -44,6 +46,7 @@ class Maze_grid():
             for y in range(0, len(self.brut_lines)):
                 for x in range(0, len(self.brut_lines[0])):
                     self.check_cells_around(x, y)
+                    self.add_patern(x, y)
         else:
             print("No path founded")
         self.add_path()
@@ -52,7 +55,7 @@ class Maze_grid():
         """Print the cells with a boucle of two steps :
         first step print the North of the cells line,
         second step print the middle """
-        WALL, EMPTY, PATH, START, END = colors
+        WALL, EMPTY, PATH, START, END, PATERN = colors
         x = 0
         for line in self.grid:
             for i in range(2):
@@ -73,6 +76,8 @@ class Maze_grid():
                                 print(PATH, end='')
                             else:
                                 print(EMPTY, end='')
+                        elif value == 5:
+                            print(PATERN, end='')
                     y += 1
                 print(WALL)
             x += 1
@@ -120,3 +125,8 @@ class Maze_grid():
                 self.grid[y - 1][x - 1].east == 1
             ):
                 self.grid[y][x].cell_proprities[0][0] = 1
+
+    def add_patern(self, x: int, y: int) -> None:
+        pos_cell = (x, y)
+        if pos_cell in self.patern:
+            self.grid[y][x].cell_proprities[1][1] = 5

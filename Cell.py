@@ -13,6 +13,7 @@ class Cell():
     """
     def __init__(self, values: list[int], x: int, y: int,
                  entry: tuple[int, int], exit: tuple[int, int]) -> None:
+        """Initialize a cell with its position, and there wall proprities"""
         self.west, self.south, self.east, self.north = values
         self.x: int = int(x)
         self.y: int = int(y)
@@ -50,7 +51,7 @@ class Cell():
     def put_path(self, direction: tuple[int, int]) -> None:
         """Modifie the cell_proprities to add the path, the path is set to 4"""
         if self.cell_proprities[direction[0]][direction[1]] == 1:
-            print("Error in the output : the path cross a wall")
+            print("Error in the output : the path is crossing a wall")
             sys.exit(1)
         elif self.cell_proprities[direction[0]][direction[1]] not in [2, 3]:
             self.cell_proprities[direction[0]][direction[1]] = 4

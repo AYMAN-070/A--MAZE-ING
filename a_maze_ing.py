@@ -34,6 +34,7 @@ def get_random_colors() -> List[str]:
 WALL, EMPTY, PATH = get_random_colors()
 START = "\033[95m██\033[0m"
 END = "\033[91m██\033[0m"
+PATERN = "\033[38;5;90m██\033[0m"
 
 
 def parse_config(file_path: str) -> Dict[str, Any]:
@@ -139,7 +140,7 @@ def generate_maze(file_config: str):
     raw_config = parse_config(file_config)
     config = validate_and_convert(raw_config)
     gen = MazeGenerator(config['height'], config['width'], config['perfect'])
-    current_colors = [WALL, EMPTY, PATH, START, END]
+    current_colors = [WALL, EMPTY, PATH, START, END, PATERN]
     grid = gen.generate(current_colors, config['animate'])
     start = config['entry']
     end = config['exit']
@@ -148,11 +149,11 @@ def generate_maze(file_config: str):
         print("Solution not found !")
     maze_hexa(grid, path, start, end, config['output_file'])
     os.system('clear' if os.name == 'posix' else 'cls')
-    run_viewer(config, [WALL, EMPTY, PATH, START, END])
-    print_menu(config)
+    run_viewer(config, gen.patern, [WALL, EMPTY, PATH, START, END, PATERN])
+    print_menu(config, gen.patern)
 
 
-def print_menu(config: Dict[str, Any]) -> None:
+def print_menu(config: Dict[str, Any], patern: set) -> None:
     """Display the menu and propose differents choices to the user"""
     global WALL, EMPTY, PATH
     with_path = False
@@ -181,11 +182,13 @@ def print_menu(config: Dict[str, Any]) -> None:
             else:
                 with_path = False
             os.system('clear' if os.name == 'posix' else 'cls')
-            run_viewer(config, [WALL, EMPTY, PATH, START, END], with_path)
+            run_viewer(config, patern,
+                       [WALL, EMPTY, PATH, START, END, PATERN], with_path)
         elif choice == 3:
             WALL, EMPTY, PATH = get_random_colors()
             os.system('clear' if os.name == 'posix' else 'cls')
-            run_viewer(config, [WALL, EMPTY, PATH, START, END], with_path)
+            run_viewer(config, patern,
+                       [WALL, EMPTY, PATH, START, END, PATERN], with_path)
         elif choice == 4:
             print("\nThank you for using our maze generator! ₪₪")
             sys.exit(0)
