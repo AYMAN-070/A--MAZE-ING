@@ -56,10 +56,10 @@ class Maze_grid():
         first step print the North of the cells line,
         second step print the middle """
         WALL, EMPTY, PATH, START, END, PATERN = colors
-        x = 0
+        y = 0
         for line in self.grid:
             for i in range(2):
-                y = 0
+                x = 0
                 for cell in line:
                     values = cell.cell_proprities[i]
                     for value in values:
@@ -78,9 +78,9 @@ class Maze_grid():
                                 print(EMPTY, end='')
                         elif value == 5:
                             print(PATERN, end='')
-                    y += 1
+                    x += 1
                 print(WALL)
-            x += 1
+            y += 1
         for _ in range(self.width_print):
             print(WALL, end='')
         print("\n")
