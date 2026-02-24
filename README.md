@@ -71,26 +71,30 @@ If in the config file the parameter animate is set at True, the maze will be gen
 ## Reusability
 
 The entire maze generation logic is decoupled from the terminal viewer and acts as a standalone, reusable Python package. The package is named mazegen and can be easily imported into any future project.
-You can build and install the package locally from the root of this repository:
-python3 -m build
-pip install dist/mazegen-1.0.0-py3-none-any.whl
+You can build and install the package locally from the root of this repository:  
+```python3 -m build```  
+```pip install dist/mazegen-1.0.0-py3-none-any.whl```
 
-Here is a basic example of how to instantiate the generator, pass custom parameters (like size and seed), and access both the generated structure and the path solution:
-Usage Example:
+**Usage Example:**  
 Here is a basic example of how to instantiate the generator, pass custom parameters (like size and perfect), and access both the generated structure and the path solution:
 
-from mazegen.generator import MazeGenerator
-1. Instantiate the generator with custom parameters
-generator = MazeGenerator(width=20, height=15, perfect=True)
-2. Add colors list
-list_colors = ["\033[34m██\033[0m","\033[97m██\033[0m","\033[90m██\033[0m","\033[95m██\033[0m"
-,"\033[91m██\033[0m", "\033[38;5;90m██\033[0m"]
-3. Access the generated structure
-maze_grid = generator.generate(list_colors, animate=False)
-4. Access the solution
-path_solution = generator.solve(x_start=0, y_start=1, x_end=19, y_end=13)
-5. Print the path
-print(f"Shortest path found: {path_solution}")
+1. Use this command :  
+```from mazegen.generator import MazeGenerator```
+
+2. Instantiate the generator with custom parameters :  
+```generator = MazeGenerator(width=20, height=15, perfect=True)```
+
+3. Add colors list :  
+```list_colors = ["\033[34m██\033[0m", "\033[97m██\033[0m", "\033[90m██\033[0m", "\033[95m██\033[0m", "\033[91m██\033[0m", "\033[38;5;90m██\033[0m"]```
+
+4. Access the generated structure :  
+```maze_grid = generator.generate(list_colors, animate=False)```
+
+5. Access the solution :  
+```path_solution = generator.solve(x_start=0, y_start=1, x_end=19, y_end=13)```
+
+6. Print the path :  
+```print(f"Shortest path found: {path_solution}")```
 
 # Instructions
 
