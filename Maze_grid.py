@@ -104,7 +104,7 @@ class Maze_grid():
                     self.current_path = (x_current, y_current - 1)
                 else:
                     raise ValueError
-            except IndexError, ValueError:
+            except (IndexError, ValueError):
                 print("Error : the path format is invalid")
                 sys.exit(1)
         if self.current_path != self.exit:
