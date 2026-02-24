@@ -119,7 +119,10 @@ def validate_and_convert(raw_config: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def maze_hexa(grid: List[List[int]], solution: str, start: Tuple[int, int],
-              end: Tuple[int, int], filename: str):
+              end: Tuple[int, int], filename: str) -> None:
+    """
+    Writes the generated maze using one hexadecimal digit per cell to represent
+    its walls and its solution to the specified output file."""
     try:
         with open(filename, 'w') as f:
             for row in grid:
@@ -134,13 +137,13 @@ def maze_hexa(grid: List[List[int]], solution: str, start: Tuple[int, int],
         print("Error :", e)
 
 
-def generate_maze(file_config: str):
+def generate_maze(file_config: str) -> None:
     """Parse the config, define the MazeGenerator, generate a
     maze randomly with the configuration given, then display it"""
     raw_config = parse_config(file_config)
     config = validate_and_convert(raw_config)
     if 'seed' in config and config['seed'] is not None:
-        random.seed(int(config['seed']))
+        random.seed((config['seed']))
     else:
         random.seed()
     gen = MazeGenerator(config['height'], config['width'], config['perfect'])

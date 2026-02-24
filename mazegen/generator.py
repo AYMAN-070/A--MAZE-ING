@@ -24,6 +24,13 @@ sys.setrecursionlimit(10000)
 
 
 class MazeGenerator:
+    """
+    A standalone, reusable maze generator using the Recursive Backtracker
+    algorithm.
+    This class generates a 2D maze structure that can be either perfect
+    (one unique path between any two points) or imperfect. It handles
+    wall generation, embeds a specific '42' pattern if the size allows it
+    """
     def __init__(self, height: int, width: int, perfect: bool = True) -> None:
         self.height: int = height
         self.width: int = width
