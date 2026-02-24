@@ -82,11 +82,14 @@ Here is a basic example of how to instantiate the generator, pass custom paramet
 from mazegen.generator import MazeGenerator
 1. Instantiate the generator with custom parameters
 generator = MazeGenerator(width=20, height=15, perfect=True)
-2. Access the generated structure
-maze_grid = generator.generate(animate=False)
-3. Access the solution
+2. Add colors list
+list_colors = ["\033[34m██\033[0m","\033[97m██\033[0m","\033[90m██\033[0m","\033[95m██\033[0m"
+,"\033[91m██\033[0m", "\033[38;5;90m██\033[0m"]
+3. Access the generated structure
+maze_grid = generator.generate(list_colors, animate=False)
+4. Access the solution
 path_solution = generator.solve(x_start=0, y_start=1, x_end=19, y_end=13)
-
+5. Print the path
 print(f"Shortest path found: {path_solution}")
 
 # Instructions
