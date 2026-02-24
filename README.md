@@ -101,7 +101,7 @@ To run the project with flake8 and mypy :
 
 
 ## Planning
--------------------------------------------------TO DO-------------------------------------------------
+-------------------------------------------------TO DO-----------------------------------------------  
 ◦ Your anticipated planning and how it evolved until the end
 ◦ What worked well and what could be improved
 
