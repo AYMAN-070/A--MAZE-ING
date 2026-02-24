@@ -58,7 +58,7 @@ The output will have this format :
 
 ## Visual representation
 
-The maze generated will be displayed in the terminal, with the patern 42 in this center, if the size is at least 10x10. The output generated will be parsed and interpreted to allow the display.
+The maze generated will be displayed in the terminal, with the patern 42 in this center if the size is at least 10x10. The output generated will be parsed and interpreted to allow the display.
 
 ## Animation
 
@@ -83,7 +83,7 @@ To run it in debug mode :
 To clean the project and remove all python temporaly files :  
 `make clean`
 
-To run the project with flake8 and mypy :
+To run the project with flake8 and mypy :  
 `make lint`
 
 
@@ -101,9 +101,14 @@ To run the project with flake8 and mypy :
 
 
 ## Planning
--------------------------------------------------TO DO-----------------------------------------------  
-◦ Your anticipated planning and how it evolved until the end
-◦ What worked well and what could be improved
+We divided the work into two parts: the generator and the rendering, then we each worked on one part. After putting our work in common, we tested our code and added error handling.
+
+
+## Balance-sheet
+
+We had a good communication and a good assiduity on this project, that allow us to be efficient and finish it quickly. We also made a good distribution of the work, and it was easy to use the other's code.
+
+We could improve our commun work, like work with pair programming, and have more thinking together. That could allow us to have a better harmoniation of our code.
 
 ## Specific tools
 
