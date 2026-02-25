@@ -89,6 +89,7 @@ Install requirements
 
 Install the generated package
 ```pip install dist/mazegen-1.0.0-py3-none-any.whl```
+```python3```
 
 1. Use this command :  
 ```from mazegen.generator import MazeGenerator```
