@@ -78,7 +78,7 @@ You can build and install the package locally from the root of this repository:
 **Usage Example:**  
 Here is a basic example of how to instantiate the generator, pass custom parameters (like size and perfect), and access both the generated structure and the path solution:
 
-OPtional:  
+Optional:  
 Create and activate a virtual environment  
 ```python3 -m venv eval_venv```  
 ```source eval_venv/bin/activate```  
