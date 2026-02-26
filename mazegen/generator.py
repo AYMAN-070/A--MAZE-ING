@@ -137,8 +137,9 @@ class MazeGenerator:
                     if (self.grid[y][x] & wall_to_break) != 0:
                         """if there is a wall, we break it"""
                         if bin(self.grid[y][x]).count('1') >= 3:
-                            """Convert the value of cell into binary and count
-                            how many walls there are"""
+                            """Convert the cell value to binary and count
+                            the number of walls to brake one only if the
+                            cell has at least 3 walls"""
                             if wall_to_break == WALL_E:
                                 self.grid[y][x] -= WALL_E
                                 self.grid[y][x + 1] -= OPPOSITE[WALL_E]
