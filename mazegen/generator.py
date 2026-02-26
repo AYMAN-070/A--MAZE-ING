@@ -124,7 +124,7 @@ class MazeGenerator:
             for x in range(1, self.width - 1):
                 if self.grid[y][x] == 15:
                     continue
-                if random.random() < 0.10:
+                if random.random() < 0.60:
                     """10% probability of breaking a wall here"""
                     direction = []
                     if x + 1 < self.width - 1 and self.grid[y][x + 1] != 15:
@@ -136,12 +136,15 @@ class MazeGenerator:
                     wall_to_break = random.choice(direction)
                     if (self.grid[y][x] & wall_to_break) != 0:
                         """if there is a wall, we break it"""
-                        if wall_to_break == WALL_E:
-                            self.grid[y][x] -= WALL_E
-                            self.grid[y][x + 1] -= OPPOSITE[WALL_E]
-                        if wall_to_break == WALL_S:
-                            self.grid[y][x] -= WALL_S
-                            self.grid[y + 1][x] -= OPPOSITE[WALL_S]
+                        if bin(self.grid[y][x]).count('1') >= 3:
+                            """Convert the value of cell into binary and count
+                            how many walls there are"""
+                            if wall_to_break == WALL_E:
+                                self.grid[y][x] -= WALL_E
+                                self.grid[y][x + 1] -= OPPOSITE[WALL_E]
+                            if wall_to_break == WALL_S:
+                                self.grid[y][x] -= WALL_S
+                                self.grid[y + 1][x] -= OPPOSITE[WALL_S]
 
     def generate(self, colors: list[str], animate: bool = False) -> list:
         """Function to launch the entire process"""

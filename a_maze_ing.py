@@ -103,10 +103,22 @@ def validate_and_convert(raw_config: Dict[str, Any]) -> Dict[str, Any]:
         raise ValueError("Error : Entry and Exit can't be in the same place")
     valid_config['output_file'] = raw_config.get('OUTPUT_FILE',
                                                  'output_maze.txt')
-    perfect_str = raw_config.get('PERFECT', 'False')
-    valid_config['perfect'] = (str(perfect_str).strip().lower() == 'true')
-    animate = raw_config.get('ANIMATE', 'False')
-    valid_config['animate'] = (str(animate).strip().lower() == 'true')
+    try:
+        with open(valid_config['output_file'], 'a'):
+            pass
+    except PermissionError:
+        raise ValueError("Permission denied: Cannot write to output_file")
+    for key in ["PERFECT", "ANIMATE"]:
+        if key not in raw_config and key == "ANIMATE":
+            valid_config['animate'] = False
+            continue
+        if raw_config[key] == "True":
+            valid_config[key.lower()] = True
+        elif raw_config[key] == "False":
+            valid_config[key.lower()] = False
+        else:
+            raise ValueError(f"Invalid boolean value for {key},"
+                             "expected True or False")
     if 'SEED' in raw_config:
         seed = raw_config.get('SEED')
         if not seed:
