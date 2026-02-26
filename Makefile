@@ -11,7 +11,7 @@ run:
 debug:
 		$(PYTHON) -m pdb $(MAIN_FILE) $(CONFIG_FILE)
 clean:
-		rm -rf __pycache__
+		find . -type d -name "__pycache__" -exec rm -rf {} +
 		rm -rf .mypy_cache
 		rm -rf *.pyc
 lint:
