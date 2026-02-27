@@ -77,6 +77,8 @@ def validate_and_convert(raw_config: Dict[str, Any]) -> Dict[str, Any]:
         valid_config['height'] = int(raw_config.get('HEIGHT', ''))
         if valid_config['width'] < 5 or valid_config['height'] < 5:
             raise ValueError("The size of the maze must be at least 5x5.")
+        if valid_config['width'] > 100 or valid_config['height'] > 100:
+            raise ValueError("The size of the maze must not exceed 100 x 100.")
     except ValueError as e:
         if "size" in str(e):
             raise

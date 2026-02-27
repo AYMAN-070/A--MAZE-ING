@@ -120,32 +120,38 @@ class MazeGenerator:
 
     def _make_imperfect(self) -> None:
         """We scan the grid and randomly remove ~10% of the remaining walls."""
-        for y in range(1, self.height - 1):
-            for x in range(1, self.width - 1):
-                if self.grid[y][x] == 15:
-                    continue
-                if random.random() < 0.60:
-                    """10% probability of breaking a wall here"""
-                    direction = []
-                    if x + 1 < self.width - 1 and self.grid[y][x + 1] != 15:
-                        direction.append(WALL_E)
-                    if y + 1 < self.height - 1 and self.grid[y + 1][x] != 15:
-                        direction.append(WALL_S)
-                    if not direction:
+        walls_broken = 0
+        while walls_broken == 0:
+            for y in range(1, self.height - 1):
+                for x in range(1, self.width - 1):
+                    if self.grid[y][x] == 15:
                         continue
-                    wall_to_break = random.choice(direction)
-                    if (self.grid[y][x] & wall_to_break) != 0:
-                        """if there is a wall, we break it"""
-                        if bin(self.grid[y][x]).count('1') >= 3:
-                            """Convert the cell value to binary and count
-                            the number of walls to brake one only if the
-                            cell has at least 3 walls"""
-                            if wall_to_break == WALL_E:
-                                self.grid[y][x] -= WALL_E
-                                self.grid[y][x + 1] -= OPPOSITE[WALL_E]
-                            if wall_to_break == WALL_S:
-                                self.grid[y][x] -= WALL_S
-                                self.grid[y + 1][x] -= OPPOSITE[WALL_S]
+                    if random.random() < 0.60:
+                        """10% probability of breaking a wall here"""
+                        direction = []
+                        if (x + 1 < self.width - 1 and
+                                self.grid[y][x + 1] != 15):
+                            direction.append(WALL_E)
+                        if (y + 1 < self.height - 1 and
+                                self.grid[y + 1][x] != 15):
+                            direction.append(WALL_S)
+                        if not direction:
+                            continue
+                        wall_to_break = random.choice(direction)
+                        if (self.grid[y][x] & wall_to_break) != 0:
+                            """if there is a wall, we break it"""
+                            if bin(self.grid[y][x]).count('1') >= 3:
+                                """Convert the cell value to binary and count
+                                the number of walls to brake one only if the
+                                cell has at least 3 walls"""
+                                if wall_to_break == WALL_E:
+                                    self.grid[y][x] -= WALL_E
+                                    self.grid[y][x + 1] -= OPPOSITE[WALL_E]
+                                    walls_broken += 1
+                                if wall_to_break == WALL_S:
+                                    self.grid[y][x] -= WALL_S
+                                    self.grid[y + 1][x] -= OPPOSITE[WALL_S]
+                                    walls_broken += 1
 
     def generate(self, colors: list[str], animate: bool = False) -> list:
         """Function to launch the entire process"""
